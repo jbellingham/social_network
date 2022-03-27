@@ -288,10 +288,10 @@ cssesc@^3.0.0:
   resolved "https://registry.yarnpkg.com/cssesc/-/cssesc-3.0.0.tgz#37741919903b868565e1c09ea747445cd18983ee"
   integrity sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==
 
-daisyui@^2.11.1:
-  version "2.11.1"
-  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-2.11.1.tgz#1a9030111a7a90ae058f5deeb4e6c41a29404af5"
-  integrity sha512-99LD0kheC7v9U/S5jY+b4Nt7ekfpbPCK7fuDBxSxPpuxO1uq6PxEtTIa6DQwlh6/0Sh2CgqDmIQzfdMzdP5DMw==
+daisyui@^2.13.3:
+  version "2.13.3"
+  resolved "https://registry.yarnpkg.com/daisyui/-/daisyui-2.13.3.tgz#511697bcbc041981df0f9c22057eaf89102d8bf7"
+  integrity sha512-tYoczVQz2DtM1frqxnkXN+T8xMyMIA3ePdIdP/ScnDrdlHRlUaOTa6/UXlBfoeqCmD8AI27bCUFrQygoQ1t2oA==
   dependencies:
     color "^4.2"
     css-selector-tokenizer "^0.8.0"
