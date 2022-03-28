@@ -1,0 +1,1 @@
+call "%~dp0\social_network" eval SocialNetwork.Release.migrate
