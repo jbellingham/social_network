@@ -2,18 +2,15 @@ name: Deploy
 on:
   workflow_run:
     workflows: [Build and test]
-    types:
-      - completed
+    types: [completed]
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
   on-success:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    deploy:
-      name: Deploy app
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - uses: superfly/flyctl-actions@1.3
-          with:
-            args: "deploy"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: superfly/flyctl-actions@1.3
+        with:
+          args: "deploy"
