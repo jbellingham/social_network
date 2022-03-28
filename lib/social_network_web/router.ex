@@ -1,5 +1,6 @@
 defmodule SocialNetworkWeb.Router do
   use SocialNetworkWeb, :router
+  require Ueberauth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -8,6 +9,11 @@ defmodule SocialNetworkWeb.Router do
     plug :put_root_layout, {SocialNetworkWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug SocialNetworkWeb.Plugs.SetUser
+  end
+
+  pipeline :authenticated do
+    plug SocialNetworkWeb.Plugs.RequireAuth
   end
 
   pipeline :api do
@@ -23,6 +29,19 @@ defmodule SocialNetworkWeb.Router do
 
     live "/:id", PostLive.Show, :show
     live "/:id/show/edit", PostLive.Show, :edit
+
+    # get "/logout", AuthController, :logout
+  end
+
+  scope "/", SocialNetworkWeb do
+    pipe_through [:browser]
+  end
+
+  scope "/auth", SocialNetworkWeb do
+    pipe_through :browser
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+    post "/:provider/callback", AuthController, :callback
   end
 
   # Other scopes may use custom stacks.
