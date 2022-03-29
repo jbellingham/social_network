@@ -8,6 +8,8 @@ defmodule SocialNetwork.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      # Start PromEx monitoring
+      SocialNetwork.PromEx,
       # Start the Ecto repository
       SocialNetwork.Repo,
       # Start the Telemetry supervisor

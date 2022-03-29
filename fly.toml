@@ -18,8 +18,8 @@ processes = []
   auto_rollback = true
 
 [metrics]
-  port = 4000
-  path = "/metrics"
+port = 4000
+path = "/metrics"
 
 
 [[services]]
