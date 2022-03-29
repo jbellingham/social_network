@@ -55,6 +55,16 @@ if config_env() == :prod do
     ],
     secret_key_base: secret_key_base
 
+  config :social_network, SocialNetwork.PromEx,
+    manual_metrics_start_delay: :no_delay,
+    grafana: [
+      host: System.get_env("GRAFANA_HOST") || raise("GRAFANA_HOST is required"),
+      auth_token: System.get_env("GRAFANA_TOKEN") || raise("GRAFANA_TOKEN is required"),
+      upload_dashboards_on_start: true,
+      folder_name: "Social Network App Dashboards",
+      annotate_app_lifecycle: true
+    ]
+
   # ## Using releases
   #
   # If you are doing OTP releases, you need to instruct Phoenix
