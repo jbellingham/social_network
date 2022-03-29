@@ -17,6 +17,11 @@ processes = []
   allowed_public_ports = []
   auto_rollback = true
 
+[metrics]
+  port = 4000
+  path = "/metrics"
+
+
 [[services]]
   http_checks = []
   internal_port = 8080
