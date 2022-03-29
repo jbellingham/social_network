@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: mix
-    directory: "/"
+    directory: "/social_network"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 10

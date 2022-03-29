@@ -13,6 +13,7 @@ jobs:
   deps:
     name: Dependencies
     runs-on: ubuntu-18.04
+    working-directory: ./social_network
     strategy:
       matrix:
         elixir: [1.12]
