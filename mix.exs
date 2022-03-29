@@ -47,6 +47,7 @@ defmodule SocialNetwork.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:poison, "~> 5.0"},
+      {:prom_ex, "~> 1.7.1"},
       {:ueberauth, "~> 0.4"},
       {:ueberauth_auth0, "~> 0.3"},
       {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
