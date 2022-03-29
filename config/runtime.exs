@@ -63,6 +63,14 @@ if config_env() == :prod do
       upload_dashboards_on_start: true,
       folder_name: "Social Network App Dashboards",
       annotate_app_lifecycle: true
+    ],
+    metrics_server: [
+      port: 4021,
+      path: "/metrics", # This is an optional setting and will default to `"/metrics"`
+      protocol: :http, # This is an optional setting and will default to `:http`
+      pool_size: 5, # This is an optional setting and will default to `5`
+      cowboy_opts: [], # This is an optional setting and will default to `[]`
+      auth_strategy: :none # This is an optional and will default to `:none`
     ]
 
   # ## Using releases
