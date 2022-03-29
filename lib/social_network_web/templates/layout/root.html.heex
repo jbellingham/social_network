@@ -17,7 +17,6 @@
         <div class="nav-wrapper container">
           <a href="/" class="brand-logo">Discussions</a>
           <ul class="right">
-            Test
             <%= if @conn.assigns[:user] do %>
               <li><%= link "Logout", to: Routes.auth_path(@conn, :logout) %></li>
             <% else %>
