@@ -49,7 +49,7 @@ defmodule SocialNetwork.MixProject do
       {:poison, "~> 5.0"},
       {:prom_ex, "~> 1.7.1"},
       {:ueberauth, "~> 0.4"},
-      {:ueberauth_auth0, "~> 0.3"},
+      {:ueberauth_auth0, "~> 2.0"},
       {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
       {:floki, ">= 0.30.0", only: :test},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
