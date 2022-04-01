@@ -66,6 +66,7 @@ defmodule SocialNetwork.PromEx do
       Plugins.Ecto,
       # Plugins.Oban,
       Plugins.PhoenixLiveView,
+      {PromEx.Plugins.PlugCowboy, routers: [SocialNetworkWeb.Router]}
       # Plugins.Absinthe,
       # Plugins.Broadway,
 
@@ -92,6 +93,7 @@ defmodule SocialNetwork.PromEx do
       {:prom_ex, "ecto.json"},
       # {:prom_ex, "oban.json"},
       {:prom_ex, "phoenix_live_view.json"},
+      {:prom_ex, "plug_cowboy.json"}
       # {:prom_ex, "absinthe.json"},
       # {:prom_ex, "broadway.json"},
 
