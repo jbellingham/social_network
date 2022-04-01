@@ -1,12 +1,12 @@
-defmodule SocialNetwork.PostsTest do
+defmodule SocialNetwork.Repositories.PostsTest do
   use SocialNetwork.DataCase
 
-  alias SocialNetwork.Posts
+  alias SocialNetwork.Repositories.Posts
 
   describe "posts" do
-    alias SocialNetwork.Posts.Post
+    alias SocialNetwork.Repositories.Posts.Post
 
-    import SocialNetwork.PostsFixtures
+    import SocialNetwork.Repositories.PostsFixtures
 
     @invalid_attrs %{body: nil}
 

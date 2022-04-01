@@ -1,4 +1,4 @@
-defmodule SocialNetwork.Posts do
+defmodule SocialNetwork.Repositories.Posts do
   @moduledoc """
   The Posts context.
   """
@@ -6,7 +6,7 @@ defmodule SocialNetwork.Posts do
   import Ecto.Query, warn: false
   alias SocialNetwork.Repo
 
-  alias SocialNetwork.Posts.Post
+  alias SocialNetwork.Models.Post
 
   @doc """
   Returns the list of posts.

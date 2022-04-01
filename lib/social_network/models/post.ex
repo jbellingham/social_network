@@ -1,4 +1,4 @@
-defmodule SocialNetwork.Posts.Post do
+defmodule SocialNetwork.Models.Post do
   use Ecto.Schema
   import Ecto.Changeset
 

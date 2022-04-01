@@ -33,15 +33,12 @@ defmodule SocialNetworkWeb.Router do
     # get "/logout", AuthController, :logout
   end
 
-  scope "/", SocialNetworkWeb do
-    pipe_through [:browser]
-  end
-
   scope "/auth", SocialNetworkWeb do
     pipe_through :browser
     get "/:provider", AuthController, :request
     get "/:provider/callback", AuthController, :callback
     post "/:provider/callback", AuthController, :callback
+    get "/logout", AuthController, :logout
   end
 
   # Other scopes may use custom stacks.

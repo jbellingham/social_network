@@ -2,7 +2,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
   use SocialNetworkWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import SocialNetwork.PostsFixtures
+  import SocialNetwork.Repositories.PostsFixtures
 
   @create_attrs %{body: "some body"}
   @update_attrs %{body: "some updated body"}

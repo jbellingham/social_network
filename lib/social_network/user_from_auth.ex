@@ -1,4 +1,4 @@
-defmodule UserFromAuth do
+defmodule SocialNetwork.UserFromAuth do
   @moduledoc """
   Retrieve the user information from an auth request
   """

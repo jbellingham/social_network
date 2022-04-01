@@ -50,7 +50,7 @@ config :phoenix, :json_library, Jason
 # Configures Ueberauth
 config :ueberauth, Ueberauth,
   providers: [
-    auth0: {Ueberauth.Strategy.Auth0, [] },
+    auth0: { Ueberauth.Strategy.Auth0, [] },
   ]
 
 # Configures Ueberauth's Auth0 provider

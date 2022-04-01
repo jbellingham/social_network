@@ -1,7 +1,7 @@
 defmodule SocialNetworkWeb.PostLive.Show do
   use SocialNetworkWeb, :live_view
 
-  alias SocialNetwork.Posts
+  alias SocialNetwork.Repositories.Posts
 
   @impl true
   def mount(_params, _session, socket) do

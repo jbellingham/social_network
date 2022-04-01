@@ -1,7 +1,7 @@
-defmodule SocialNetwork.PostsFixtures do
+defmodule SocialNetwork.Repositories.PostsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `SocialNetwork.Posts` context.
+  entities via the `SocialNetwork.Repositories.Posts` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule SocialNetwork.PostsFixtures do
       |> Enum.into(%{
         body: "some body"
       })
-      |> SocialNetwork.Posts.create_post()
+      |> SocialNetwork.Repositories.Posts.create_post()
 
     post
   end

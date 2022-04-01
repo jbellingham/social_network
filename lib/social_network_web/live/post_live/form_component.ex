@@ -1,7 +1,7 @@
 defmodule SocialNetworkWeb.PostLive.FormComponent do
   use SocialNetworkWeb, :live_component
 
-  alias SocialNetwork.Posts
+  alias SocialNetwork.Repositories.Posts
 
   @impl true
   def update(%{post: post} = assigns, socket) do
