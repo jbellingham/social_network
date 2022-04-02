@@ -21,7 +21,7 @@ defmodule SocialNetworkWeb.Router do
   # It would otherwise fall into - live "/:id", PostLive.Show, :show -
   # where "new" would be interpreted as an id.
   scope "/", SocialNetworkWeb do
-    pipe_through [:browser, :redirect_if_unauthenticated]
+    pipe_through [:browser]
 
     live "/new", PostLive.Index, :new
     live "/:id/edit", PostLive.Index, :edit
