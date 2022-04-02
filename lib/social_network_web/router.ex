@@ -12,23 +12,28 @@ defmodule SocialNetworkWeb.Router do
     plug SocialNetworkWeb.Plugs.SetUser
   end
 
-  pipeline :authenticated do
-    plug SocialNetworkWeb.Plugs.RequireAuth
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
+  end
+
+  # Order of routes matters. It checks routes sequentially down,
+  # so a request to /new will fall into - live "/new", PostLive.Index, :new -
+  # It would otherwise fall into - live "/:id", PostLive.Show, :show -
+  # where "new" would be interpreted as an id.
+  scope "/", SocialNetworkWeb do
+    pipe_through [:browser, :redirect_if_unauthenticated]
+
+    live "/new", PostLive.Index, :new
+    live "/:id/edit", PostLive.Index, :edit
+    live "/:id/show/edit", PostLive.Show, :edit
   end
 
   scope "/", SocialNetworkWeb do
     pipe_through :browser
 
     live "/", PostLive.Index, :index
-    live "/new", PostLive.Index, :new
-    live "/:id/edit", PostLive.Index, :edit
 
     live "/:id", PostLive.Show, :show
-    live "/:id/show/edit", PostLive.Show, :edit
 
     # get "/logout", AuthController, :logout
   end

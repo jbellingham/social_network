@@ -1,4 +1,4 @@
-defmodule SocialNetworkWeb.AuthController do
+defmodule SocialNetworkWeb.Controllers.AuthController do
   use SocialNetworkWeb, :controller
   plug Ueberauth
 
