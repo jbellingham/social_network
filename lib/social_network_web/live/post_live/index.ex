@@ -2,7 +2,8 @@ defmodule SocialNetworkWeb.PostLive.Index do
   use SocialNetworkWeb, :live_view
 
   alias SocialNetwork.Repositories.Posts
-  alias SocialNetwork.Models.Post
+  alias SocialNetwork.Schema.Post
+
 
   @impl true
   def mount(_params, _session, socket) do

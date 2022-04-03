@@ -1,9 +1,10 @@
-defmodule SocialNetwork.Models.Post do
+defmodule SocialNetwork.Schema.Post do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "posts" do
     field :body, :string
+    belongs_to :user, SocialNetwork.Schema.User
 
     timestamps()
   end

@@ -1,4 +1,4 @@
-defmodule SocialNetwork.Models.User do
+defmodule SocialNetwork.Schema.User do
   use Ecto.Schema
   import Ecto.Changeset
 

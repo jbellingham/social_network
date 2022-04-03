@@ -6,7 +6,7 @@ defmodule SocialNetwork.Repositories.Posts do
   import Ecto.Query, warn: false
   alias SocialNetwork.Repo
 
-  alias SocialNetwork.Models.Post
+  alias SocialNetwork.Schema.Post
 
   @doc """
   Returns the list of posts.

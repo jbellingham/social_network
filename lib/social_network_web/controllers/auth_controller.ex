@@ -2,7 +2,7 @@ defmodule SocialNetworkWeb.Controllers.AuthController do
   use SocialNetworkWeb, :controller
   plug Ueberauth
 
-  alias SocialNetwork.Models.User
+  alias SocialNetwork.Schema.User
   alias SocialNetwork.Repo
 
   def callback(%{assigns: %{ueberauth_auth: auth}} = conn, _params) do

@@ -4,7 +4,7 @@ defmodule SocialNetwork.Repositories.PostsTest do
   alias SocialNetwork.Repositories.Posts
 
   describe "posts" do
-    alias SocialNetwork.Models.Post
+    alias SocialNetwork.Schema.Post
 
     import SocialNetwork.Repositories.PostsFixtures
 
