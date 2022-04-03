@@ -20,22 +20,21 @@ defmodule SocialNetworkWeb.Router do
   # so a request to /new will fall into - live "/new", PostLive.Index, :new -
   # It would otherwise fall into - live "/:id", PostLive.Show, :show -
   # where "new" would be interpreted as an id.
-  scope "/", SocialNetworkWeb do
-    pipe_through [:browser]
+  live_session :authenticated, on_mount: {SocialNetworkWeb.LiveViewAssigns, :user} do
+    scope "/", SocialNetworkWeb do
+      pipe_through [:browser]
 
-    live "/new", PostLive.Index, :new
-    live "/:id/edit", PostLive.Index, :edit
-    live "/:id/show/edit", PostLive.Show, :edit
+      live "/new", PostLive.Index, :new
+      live "/:id/edit", PostLive.Index, :edit
+      live "/:id/show/edit", PostLive.Show, :edit
+    end
   end
 
   scope "/", SocialNetworkWeb do
     pipe_through :browser
 
     live "/", PostLive.Index, :index
-
     live "/:id", PostLive.Show, :show
-
-    # get "/logout", AuthController, :logout
   end
 
   scope "/auth", SocialNetworkWeb do
