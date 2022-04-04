@@ -55,9 +55,9 @@ config :ueberauth, Ueberauth,
 
 # Configures Ueberauth's Auth0 provider
 config :ueberauth, Ueberauth.Strategy.Auth0.OAuth,
-  domain: System.get_env("AUTH0_DOMAIN") || raise("AUTH0_DOMAIN is required"),
-  client_id: System.get_env("AUTH0_CLIENT_ID") || raise("AUTH0_CLIENT_ID is required"),
-  client_secret: System.get_env("AUTH0_CLIENT_SECRET") || raise("AUTH0_CLIENT_SECRET is required")
+  domain: {:system, "AUTH0_DOMAIN"},
+  client_id: {:system, "AUTH0_CLIENT_ID"},
+  client_secret: {:system, "AUTH0_CLIENT_SECRET"}
 
 
 # Import environment specific config. This must remain at the bottom
