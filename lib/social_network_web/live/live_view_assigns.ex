@@ -5,6 +5,7 @@ defmodule SocialNetworkWeb.LiveViewAssigns do
   alias SocialNetwork.Repositories.Posts
 
   def on_mount(:user, _params, %{"user_id" => user_id} = _session, socket) do
+    IO.puts("Live View user_id assign happened")
     socket = assign_new(socket, :current_user, fn ->
       Repo.get_by(User, id: user_id)
     end)

@@ -12,6 +12,10 @@ defmodule SocialNetworkWeb.Router do
     plug SocialNetworkWeb.Plugs.SetUser
   end
 
+  pipeline :require_auth do
+    plug SocialNetworkWeb.Plugs.RequireAuth
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -22,7 +26,7 @@ defmodule SocialNetworkWeb.Router do
   # where "new" would be interpreted as an id.
   live_session :authenticated, on_mount: {SocialNetworkWeb.LiveViewAssigns, :user} do
     scope "/", SocialNetworkWeb do
-      pipe_through [:browser]
+      pipe_through [:browser, :require_auth]
 
       live "/new", PostLive.Index, :new
       live "/:id/edit", PostLive.Index, :edit

@@ -3,7 +3,7 @@ defmodule SocialNetworkWeb.Plugs.SetUser do
   import Phoenix.Controller
 
   alias SocialNetwork.Repo
-  alias SocialNetwork.Models.User
+  alias SocialNetwork.Schema.User
 
   def init(_params) do
   end
