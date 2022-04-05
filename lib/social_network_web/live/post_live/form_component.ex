@@ -2,6 +2,8 @@ defmodule SocialNetworkWeb.PostLive.FormComponent do
   use SocialNetworkWeb, :live_component
 
   alias SocialNetwork.Repositories.Posts
+  alias SocialNetwork.Schema.Post
+  alias SocialNetworkWeb.Router.Helpers, as: Routes
 
   @impl true
   def update(%{post: post} = assigns, socket) do
@@ -24,10 +26,17 @@ defmodule SocialNetworkWeb.PostLive.FormComponent do
   end
 
   def handle_event("save", %{"post" => post_params}, socket) do
-    save_post(socket, socket.assigns.action, post_params)
+    current_user = socket.assigns.current_user
+    if current_user do
+      save_post(socket, socket.assigns.action, post_params, current_user)
+    else
+      # put_flash doesn't work, need to figure out how to display an error here
+      put_flash(socket, :error, "You must be logged in to do that.")
+      {:noreply, socket}
+    end
   end
 
-  defp save_post(socket, :edit, post_params) do
+  defp save_post(socket, :edit, post_params, _user) do
     case Posts.update_post(socket.assigns.post, post_params) do
       {:ok, _post} ->
         {:noreply,
@@ -40,8 +49,8 @@ defmodule SocialNetworkWeb.PostLive.FormComponent do
     end
   end
 
-  defp save_post(socket, :new, post_params) do
-    case Posts.create_post(post_params) do
+  defp save_post(socket, :new, post_params, user) do
+    case Posts.create_post(post_params, user) do
       {:ok, _post} ->
         {:noreply,
          socket

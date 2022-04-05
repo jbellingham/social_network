@@ -5,6 +5,7 @@
     <.live_component
       module={SocialNetworkWeb.PostLive.FormComponent}
       id={@post.id || :new}
+      current_user={@current_user}
       title={@page_title}
       action={@live_action}
       post={@post}

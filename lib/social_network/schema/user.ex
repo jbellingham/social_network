@@ -7,6 +7,9 @@ defmodule SocialNetwork.Schema.User do
     field :provider, :string
     field :token, :string
 
+    # Modeling one-many relationship
+    has_many :posts, SocialNetwork.Schema.Post
+
     timestamps()
   end
 

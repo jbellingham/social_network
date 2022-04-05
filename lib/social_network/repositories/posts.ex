@@ -49,10 +49,11 @@ defmodule SocialNetwork.Repositories.Posts do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_post(attrs \\ %{}) do
-    %Post{}
-    |> Post.changeset(attrs)
-    |> Repo.insert()
+  def create_post(attrs \\ %{}, user) do
+    user
+      |> Ecto.build_assoc(:posts)
+      |> Post.changeset(attrs)
+      |> Repo.insert()
   end
 
   @doc """

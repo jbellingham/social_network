@@ -8,8 +8,7 @@ defmodule SocialNetworkWeb.Plugs.RequireAuth do
   end
 
   def call(conn, _params) do
-    IO.puts("Require auth plug happened")
-    if conn.assigns[:user] do
+    if conn.assigns[:current_user] do
       conn
     else
       conn

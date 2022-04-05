@@ -1,21 +1,27 @@
 defmodule SocialNetworkWeb.LiveViewAssigns do
   import Phoenix.LiveView
   alias SocialNetwork.Repo
-  alias SocialNetworkWeb.Router.Helpers, as: Routes
-  alias SocialNetwork.Repositories.Posts
+  alias SocialNetwork.Schema.User
 
-  def on_mount(:user, _params, %{"user_id" => user_id} = _session, socket) do
-    IO.puts("Live View user_id assign happened")
+  def on_mount(:user, _params, session, socket) do
+    IO.inspect(session)
+    user_id = Map.get(session, "user_id")
     socket = assign_new(socket, :current_user, fn ->
-      Repo.get_by(User, id: user_id)
+      get_user_if_not_nil(user_id)
     end)
 
-    if socket.assigns.current_user do
-      {:cont, socket}
-    else
-      put_flash(socket, :info, "You must be signed in to do that.")
-      {:halt, redirect(socket, to: Routes.post_index_path(socket, :index))}
-    end
+  {:cont, socket}
+  end
+
+  # pattern matching functions
+  # if function receives nil, it will match to this definition
+  defp get_user_if_not_nil(nil) do
+    nil
+  end
+
+  # if function does not receive nil, it will match to this definition
+  defp get_user_if_not_nil(user_id) do
+    Repo.get(User, user_id)
   end
 
   # def on_mount(:owns_target, %{"id" => id} = _params, %{"user_id" => user_id} = _session, socekt) do
