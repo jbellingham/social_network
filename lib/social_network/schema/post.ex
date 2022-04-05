@@ -10,7 +10,7 @@ defmodule SocialNetwork.Schema.Post do
   end
 
   @doc false
-  def changeset(post, attrs) do
+  def changeset(post, attrs \\ %{}) do
     post
     |> cast(attrs, [:body])
     |> validate_required([:body])

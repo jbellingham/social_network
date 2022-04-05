@@ -5,8 +5,10 @@ defmodule SocialNetwork.Repositories.PostsTest do
 
   describe "posts" do
     alias SocialNetwork.Schema.Post
+    alias SocialNetwork.Schema.User
 
     import SocialNetwork.Repositories.PostsFixtures
+    import SocialNetwork.Repositories.UsersFixtures
 
     @invalid_attrs %{body: nil}
 
@@ -23,12 +25,14 @@ defmodule SocialNetwork.Repositories.PostsTest do
     test "create_post/1 with valid data creates a post" do
       valid_attrs = %{body: "some body"}
 
-      assert {:ok, %Post{} = post} = Posts.create_post(valid_attrs)
+      user = user_fixture()
+      assert {:ok, %Post{} = post} = Posts.create_post(valid_attrs, user)
       assert post.body == "some body"
     end
 
     test "create_post/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Posts.create_post(@invalid_attrs)
+      user = user_fixture()
+      assert {:error, %Ecto.Changeset{}} = Posts.create_post(@invalid_attrs, user)
     end
 
     test "update_post/2 with valid data updates the post" do
