@@ -19,8 +19,8 @@ defmodule SocialNetworkWeb.PostLiveTest do
     %{user: user}
   end
 
-  describe "Index" do
-    setup [:create_post, :create_user]
+  describe "Index - unauthenticated" do
+    setup [:create_post]
 
     test "lists all posts", %{conn: conn, post: post} do
       {:ok, _index_live, html} = live(conn, Routes.post_index_path(conn, :index))
@@ -29,6 +29,15 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert html =~ post.body
     end
 
+    test "does not display edit button", %{conn: conn} do
+      {:ok, _show_live, html} = live(conn, Routes.post_index_path(conn, :index))
+      refute html =~ "Edit"
+    end
+
+  end
+
+  describe "Index - authenticated" do
+    setup [:create_post, :create_user]
     test "saves post succeeds when authenticated", %{conn: conn, user: user} do
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
@@ -53,7 +62,27 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert html =~ "some body"
     end
 
-    test "updates post in listing when authenticated", %{conn: conn, post: post, user: user} do
+    test "updates post in listing", %{conn: conn, post: post, user: user} do
+      conn = Plug.Test.init_test_session(conn, user_id: user.id)
+
+      {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
+
+      assert index_live |> element("#post-#{post.id} a", "Edit") |> render_click() =~
+               "Edit Post"
+
+      assert_patch(index_live, Routes.post_index_path(conn, :edit, post))
+
+      {:ok, _, html} =
+        index_live
+        |> form("#post-form", post: @update_attrs)
+        |> render_submit()
+        |> follow_redirect(conn, Routes.post_index_path(conn, :index))
+
+      assert html =~ "Post updated successfully"
+      assert html =~ "some updated body"
+    end
+
+    test "update with invalid form data shows validation error", %{conn: conn, post: post, user: user} do
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
@@ -66,15 +95,6 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert index_live
              |> form("#post-form", post: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
-
-      {:ok, _, html} =
-        index_live
-        |> form("#post-form", post: @update_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.post_index_path(conn, :index))
-
-      assert html =~ "Post updated successfully"
-      assert html =~ "some updated body"
     end
 
     test "deletes post in listing", %{conn: conn, post: post} do
@@ -83,6 +103,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert index_live |> element("#post-#{post.id} a", "Delete") |> render_click()
       refute has_element?(index_live, "#post-#{post.id}")
     end
+
   end
 
   describe "Show - unauthenticated" do
