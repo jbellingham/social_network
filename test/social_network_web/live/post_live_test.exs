@@ -19,7 +19,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
     %{user: user}
   end
 
-  describe "Index - unauthenticated" do
+  describe "Index - when unauthenticated" do
     setup [:create_post]
 
     test "lists all posts", %{conn: conn, post: post} do
@@ -45,7 +45,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
     end
   end
 
-  describe "Index - authenticated" do
+  describe "Index - when authenticated" do
     setup [:create_post, :create_user]
     test "saves post succeeds when authenticated", %{conn: conn, user: user} do
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
@@ -117,7 +117,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
 
   end
 
-  describe "Show - unauthenticated" do
+  describe "Show - when unauthenticated" do
     setup [:create_post]
 
     test "displays post", %{conn: conn, post: post} do
@@ -133,7 +133,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
     end
   end
 
-  describe "Show - authenticated" do
+  describe "Show - when authenticated" do
     setup [:create_post, :create_user]
 
     test "updates post within modal", %{conn: conn, post: post, user: user} do
