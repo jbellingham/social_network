@@ -32,7 +32,9 @@
           <%= if @current_user do %>
             <span><%= live_patch "Edit", to: Routes.post_index_path(@socket, :edit, post) %></span>
           <% end %>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: post.id, data: [confirm: "Are you sure?"] %></span>
+          <%= if @current_user do %>
+            <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: post.id, data: [confirm: "Are you sure?"] %></span>
+          <% end %>
         </td>
       </tr>
     <% end %>

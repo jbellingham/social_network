@@ -34,6 +34,10 @@ defmodule SocialNetworkWeb.PostLiveTest do
       refute html =~ "Edit"
     end
 
+    test "does not display delete button", %{conn: conn} do
+      {:ok, _show_live, html} = live(conn, Routes.post_index_path(conn, :index))
+      refute html =~ "Delete"
+    end
   end
 
   describe "Index - authenticated" do
@@ -97,7 +101,9 @@ defmodule SocialNetworkWeb.PostLiveTest do
              |> render_change() =~ "can&#39;t be blank"
     end
 
-    test "deletes post in listing", %{conn: conn, post: post} do
+    test "deletes post in listing", %{conn: conn, post: post, user: user} do
+      conn = Plug.Test.init_test_session(conn, user_id: user.id)
+
       {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
 
       assert index_live |> element("#post-#{post.id} a", "Delete") |> render_click()
