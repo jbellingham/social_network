@@ -23,5 +23,7 @@
 
 </ul>
 
-<span><%= live_patch "Edit", to: Routes.post_show_path(@socket, :edit, @post), class: "button" %></span> |
+<%= if @current_user do %>
+  <span><%= live_patch "Edit", to: Routes.post_show_path(@socket, :edit, @post), class: "button" %></span> |
+<% end %>
 <span><%= live_redirect "Back", to: Routes.post_index_path(@socket, :index) %></span>
