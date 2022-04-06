@@ -24,7 +24,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert html =~ post.body
     end
 
-    test "saves post fails when authenticated", %{conn: conn} do
+    test "saves post succeeds when authenticated", %{conn: conn} do
       user = user_fixture()
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
@@ -94,7 +94,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
 
     test "updates post within modal", %{conn: conn, post: post} do
       user = user_fixture()
-      conn = Plug.Test.init_test_session(conn, current_user: user)
+      conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, show_live, _html} = live(conn, Routes.post_show_path(conn, :show, post))
 
