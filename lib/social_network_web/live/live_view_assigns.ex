@@ -4,7 +4,6 @@ defmodule SocialNetworkWeb.LiveViewAssigns do
   alias SocialNetwork.Schema.User
 
   def on_mount(:user, _params, session, socket) do
-    IO.inspect(session)
     user_id = Map.get(session, "user_id")
     socket = assign_new(socket, :current_user, fn ->
       get_user_if_not_nil(user_id)

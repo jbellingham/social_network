@@ -9,13 +9,14 @@ defmodule SocialNetworkWeb.PostLiveTest do
   @update_attrs %{body: "some updated body"}
   @invalid_attrs %{body: nil}
 
-  defp create_post(_) do
+  defp create_fixtures(_) do
     post = post_fixture()
-    %{post: post}
+    user = user_fixture()
+    %{post: post, user: user}
   end
 
   describe "Index" do
-    setup [:create_post]
+    setup [:create_fixtures]
 
     test "lists all posts", %{conn: conn, post: post} do
       {:ok, _index_live, html} = live(conn, Routes.post_index_path(conn, :index))
@@ -24,8 +25,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert html =~ post.body
     end
 
-    test "saves post succeeds when authenticated", %{conn: conn} do
-      user = user_fixture()
+    test "saves post succeeds when authenticated", %{conn: conn, user: user} do
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
@@ -49,8 +49,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert html =~ "some body"
     end
 
-    test "updates post in listing when authenticated", %{conn: conn, post: post} do
-      user = user_fixture()
+    test "updates post in listing when authenticated", %{conn: conn, post: post, user: user} do
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
@@ -83,7 +82,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
   end
 
   describe "Show" do
-    setup [:create_post]
+    setup [:create_fixtures]
 
     test "displays post", %{conn: conn, post: post} do
       {:ok, _show_live, html} = live(conn, Routes.post_show_path(conn, :show, post))
@@ -92,8 +91,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert html =~ post.body
     end
 
-    test "updates post within modal", %{conn: conn, post: post} do
-      user = user_fixture()
+    test "updates post within modal", %{conn: conn, post: post, user: user} do
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, show_live, _html} = live(conn, Routes.post_show_path(conn, :show, post))
