@@ -3,6 +3,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
 
   import Phoenix.LiveViewTest
   import SocialNetwork.Repositories.PostsFixtures
+  import SocialNetwork.Repositories.UsersFixtures
 
   @create_attrs %{body: "some body"}
   @update_attrs %{body: "some updated body"}
@@ -23,7 +24,10 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert html =~ post.body
     end
 
-    test "saves new post", %{conn: conn} do
+    test "saves post fails when authenticated", %{conn: conn} do
+      user = user_fixture()
+      conn = Plug.Test.init_test_session(conn, user_id: user.id)
+
       {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
 
       assert index_live |> element("a", "New Post") |> render_click() =~
@@ -45,7 +49,10 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert html =~ "some body"
     end
 
-    test "updates post in listing", %{conn: conn, post: post} do
+    test "updates post in listing when authenticated", %{conn: conn, post: post} do
+      user = user_fixture()
+      conn = Plug.Test.init_test_session(conn, user_id: user.id)
+
       {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
 
       assert index_live |> element("#post-#{post.id} a", "Edit") |> render_click() =~
@@ -86,6 +93,9 @@ defmodule SocialNetworkWeb.PostLiveTest do
     end
 
     test "updates post within modal", %{conn: conn, post: post} do
+      user = user_fixture()
+      conn = Plug.Test.init_test_session(conn, current_user: user)
+
       {:ok, show_live, _html} = live(conn, Routes.post_show_path(conn, :show, post))
 
       assert show_live |> element("a", "Edit") |> render_click() =~
