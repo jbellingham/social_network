@@ -31,8 +31,6 @@
           <span><%= live_redirect "Show", to: Routes.post_show_path(@socket, :show, post) %></span>
           <%= if @current_user do %>
             <span><%= live_patch "Edit", to: Routes.post_index_path(@socket, :edit, post) %></span>
-          <% end %>
-          <%= if @current_user do %>
             <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: post.id, data: [confirm: "Are you sure?"] %></span>
           <% end %>
         </td>
@@ -41,4 +39,6 @@
   </tbody>
 </table>
 
-<span><%= live_patch "New Post", to: Routes.post_index_path(@socket, :new) %></span>
+<%= if @current_user do %>
+  <span><%= live_patch "New Post", to: Routes.post_index_path(@socket, :new) %></span>
+<% end %>

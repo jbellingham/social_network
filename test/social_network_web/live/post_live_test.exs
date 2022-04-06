@@ -38,6 +38,11 @@ defmodule SocialNetworkWeb.PostLiveTest do
       {:ok, _show_live, html} = live(conn, Routes.post_index_path(conn, :index))
       refute html =~ "Delete"
     end
+
+    test "does not display new post button", %{conn: conn} do
+      {:ok, _show_live, html} = live(conn, Routes.post_index_path(conn, :index))
+      refute html =~ "New Post"
+    end
   end
 
   describe "Index - authenticated" do
