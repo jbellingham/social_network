@@ -29,7 +29,7 @@
 
         <td>
           <span><%= live_redirect "Show", to: Routes.post_show_path(@socket, :show, post) %></span>
-          <%= if @current_user do %>
+          <%= if @current_user && post.user_id === @current_user.id do %>
             <span><%= live_patch "Edit", to: Routes.post_index_path(@socket, :edit, post) %></span>
             <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: post.id, data: [confirm: "Are you sure?"] %></span>
           <% end %>

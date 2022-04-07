@@ -10,13 +10,37 @@ defmodule SocialNetworkWeb.PostLiveTest do
   @invalid_attrs %{body: nil}
 
   defp create_post(_) do
-    post = post_fixture()
+    post = post_fixture(user_fixture())
     %{post: post}
   end
 
   defp create_user(_) do
     user = user_fixture()
     %{user: user}
+  end
+
+  describe "Index - ownership -" do
+    setup [:create_user]
+
+    test "un-owned post does not display edit button", %{conn: conn, user: user} do
+      post = post_fixture(user_fixture())
+      conn = Plug.Test.init_test_session(conn, user_id: user.id)
+      {:ok, index_live, html} = live(conn, Routes.post_index_path(conn, :index))
+
+      refute index_live
+        |> element("#post-#{post.id} a", "Edit")
+        |> has_element?()
+    end
+
+    test "un-owned post does not display delete button", %{conn: conn, user: user} do
+      post = post_fixture(user_fixture())
+      conn = Plug.Test.init_test_session(conn, user_id: user.id)
+      {:ok, index_live, html} = live(conn, Routes.post_index_path(conn, :index))
+
+      refute index_live
+        |> element("#post-#{post.id} a", "Delete")
+        |> has_element?()
+    end
   end
 
   describe "Index - when unauthenticated" do
@@ -83,7 +107,8 @@ defmodule SocialNetworkWeb.PostLiveTest do
              |> render_change() =~ "can&#39;t be blank"
     end
 
-    test "updates post in listing", %{conn: conn, post: post, user: user} do
+    test "updates post in listing", %{conn: conn, user: user} do
+      post = post_fixture(user)
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
@@ -105,9 +130,9 @@ defmodule SocialNetworkWeb.PostLiveTest do
 
     test "update with invalid form data shows validation error", %{
       conn: conn,
-      post: post,
       user: user
     } do
+      post = post_fixture(user)
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
@@ -122,7 +147,8 @@ defmodule SocialNetworkWeb.PostLiveTest do
              |> render_change() =~ "can&#39;t be blank"
     end
 
-    test "deletes post in listing", %{conn: conn, post: post, user: user} do
+    test "deletes post in listing", %{conn: conn, user: user} do
+      post = post_fixture(user)
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))

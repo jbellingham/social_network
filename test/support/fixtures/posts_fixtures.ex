@@ -7,9 +7,7 @@ defmodule SocialNetwork.Repositories.PostsFixtures do
   @doc """
   Generate a post.
   """
-  def post_fixture(attrs \\ %{}) do
-    user = %SocialNetwork.Schema.User{email: "", token: "", provider: ""}
-
+  def post_fixture(user, attrs \\ %{}) do
     {:ok, post} =
       attrs
       |> Enum.into(%{
