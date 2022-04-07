@@ -52,8 +52,8 @@ defmodule SocialNetwork.MixProject do
       {:ueberauth_auth0, "~> 2.0"},
       {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
       {:floki, ">= 0.30.0", only: :test},
-      {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
-      {:phoenix_live_reload, "~> 1.2", only: :dev}
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:mix_test_interactive, "~> 1.1", only: :dev, runtime: false}
     ]
   end
 
@@ -69,7 +69,8 @@ defmodule SocialNetwork.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["esbuild default --minify", "phx.digest"]
+      "assets.deploy": ["esbuild default --minify", "phx.digest"],
+      "test.watch": ["test.interactive"]
     ]
   end
 end
