@@ -53,7 +53,7 @@ defmodule SocialNetwork.MixProject do
       {:esbuild, "~> 0.3", runtime: Mix.env() == :dev},
       {:floki, ">= 0.30.0", only: :test},
       {:mix_test_watch, "~> 1.0", only: :dev, runtime: false},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_reload, "~> 1.2", only: :dev}
     ]
   end
 

@@ -50,7 +50,7 @@ config :phoenix, :json_library, Jason
 # Configures Ueberauth
 config :ueberauth, Ueberauth,
   providers: [
-    auth0: { Ueberauth.Strategy.Auth0, [] },
+    auth0: {Ueberauth.Strategy.Auth0, []}
   ]
 
 # Configures Ueberauth's Auth0 provider
@@ -58,7 +58,6 @@ config :ueberauth, Ueberauth.Strategy.Auth0.OAuth,
   domain: {:system, "AUTH0_DOMAIN"},
   client_id: {:system, "AUTH0_CLIENT_ID"},
   client_secret: {:system, "AUTH0_CLIENT_SECRET"}
-
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

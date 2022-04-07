@@ -27,6 +27,7 @@ defmodule SocialNetworkWeb.PostLive.FormComponent do
 
   def handle_event("save", %{"post" => post_params}, socket) do
     current_user = socket.assigns.current_user
+
     if current_user do
       save_post(socket, socket.assigns.action, post_params, current_user)
     else

@@ -1,6 +1,7 @@
 defmodule SocialNetwork.Repositories.Users do
   alias SocialNetwork.Repo
   alias SocialNetwork.Schema.User
+
   @doc """
   Creates a user.
 

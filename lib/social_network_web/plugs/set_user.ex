@@ -22,6 +22,7 @@ defmodule SocialNetworkWeb.Plugs.SetUser do
         # plugs are executed in a predefined order, so subsequent plugs will have access to the user
         # in the same way
         assign(conn, :current_user, user)
+
       # cond statements can have a default case like the following
       true ->
         assign(conn, :current_user, nil)

@@ -47,6 +47,7 @@ defmodule SocialNetworkWeb.PostLiveTest do
 
   describe "Index - when authenticated" do
     setup [:create_post, :create_user]
+
     test "saves new post succeeds when authenticated", %{conn: conn, user: user} do
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
@@ -102,7 +103,11 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert html =~ "some updated body"
     end
 
-    test "update with invalid form data shows validation error", %{conn: conn, post: post, user: user} do
+    test "update with invalid form data shows validation error", %{
+      conn: conn,
+      post: post,
+      user: user
+    } do
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
@@ -125,7 +130,6 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert index_live |> element("#post-#{post.id} a", "Delete") |> render_click()
       refute has_element?(index_live, "#post-#{post.id}")
     end
-
   end
 
   describe "Show - when unauthenticated" do
@@ -167,7 +171,11 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert html =~ "some updated body"
     end
 
-    test "update with invalid form data shows validation error", %{conn: conn, post: post, user: user} do
+    test "update with invalid form data shows validation error", %{
+      conn: conn,
+      post: post,
+      user: user
+    } do
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, show_live, _html} = live(conn, Routes.post_show_path(conn, :show, post))
@@ -178,9 +186,8 @@ defmodule SocialNetworkWeb.PostLiveTest do
       assert_patch(show_live, Routes.post_show_path(conn, :edit, post))
 
       assert show_live
-            |> form("#post-form", post: @invalid_attrs)
-            |> render_change() =~ "can&#39;t be blank"
-
+             |> form("#post-form", post: @invalid_attrs)
+             |> render_change() =~ "can&#39;t be blank"
     end
   end
 end

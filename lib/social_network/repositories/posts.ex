@@ -51,9 +51,9 @@ defmodule SocialNetwork.Repositories.Posts do
   """
   def create_post(attrs \\ %{}, user) do
     user
-      |> Ecto.build_assoc(:posts)
-      |> Post.changeset(attrs)
-      |> Repo.insert()
+    |> Ecto.build_assoc(:posts)
+    |> Post.changeset(attrs)
+    |> Repo.insert()
   end
 
   @doc """

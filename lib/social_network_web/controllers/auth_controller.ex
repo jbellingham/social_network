@@ -24,6 +24,7 @@ defmodule SocialNetworkWeb.Controllers.AuthController do
         |> put_flash(:info, "Welcome back!")
         |> put_session(:user_id, user.id)
         |> redirect(to: Routes.post_index_path(conn, :index))
+
       {:error, _reason} ->
         conn
         |> put_flash(:error, "Couldn't sign in.")
@@ -33,11 +34,12 @@ defmodule SocialNetworkWeb.Controllers.AuthController do
 
   # defp = private function
   defp insert_or_update_user(changeset) do
-     case Repo.get_by(User, email: changeset.changes.email) do
-        nil ->
-          Repo.insert(changeset)
-        user ->
-          {:ok, user}
-      end
+    case Repo.get_by(User, email: changeset.changes.email) do
+      nil ->
+        Repo.insert(changeset)
+
+      user ->
+        {:ok, user}
+    end
   end
 end

@@ -66,11 +66,16 @@ if config_env() == :prod do
     ],
     metrics_server: [
       port: 4021,
-      path: "/metrics", # This is an optional setting and will default to `"/metrics"`
-      protocol: :http, # This is an optional setting and will default to `:http`
-      pool_size: 5, # This is an optional setting and will default to `5`
-      cowboy_opts: [], # This is an optional setting and will default to `[]`
-      auth_strategy: :none # This is an optional and will default to `:none`
+      # This is an optional setting and will default to `"/metrics"`
+      path: "/metrics",
+      # This is an optional setting and will default to `:http`
+      protocol: :http,
+      # This is an optional setting and will default to `5`
+      pool_size: 5,
+      # This is an optional setting and will default to `[]`
+      cowboy_opts: [],
+      # This is an optional and will default to `:none`
+      auth_strategy: :none
     ]
 
   # ## Using releases

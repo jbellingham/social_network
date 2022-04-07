@@ -5,11 +5,13 @@ defmodule SocialNetworkWeb.LiveViewAssigns do
 
   def on_mount(:user, _params, session, socket) do
     user_id = Map.get(session, "user_id")
-    socket = assign_new(socket, :current_user, fn ->
-      get_user_if_not_nil(user_id)
-    end)
 
-  {:cont, socket}
+    socket =
+      assign_new(socket, :current_user, fn ->
+        get_user_if_not_nil(user_id)
+      end)
+
+    {:cont, socket}
   end
 
   # pattern matching functions
