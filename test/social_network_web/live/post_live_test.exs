@@ -41,6 +41,56 @@ defmodule SocialNetworkWeb.PostLiveTest do
         |> element("#post-#{post.id} a", "Delete")
         |> has_element?()
     end
+
+    test "updates owned post in listing", %{conn: conn, user: user} do
+      post = post_fixture(user)
+      conn = Plug.Test.init_test_session(conn, user_id: user.id)
+
+      {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
+
+      assert index_live |> element("#post-#{post.id} a", "Edit") |> render_click() =~
+               "Edit Post"
+
+      assert_patch(index_live, Routes.post_index_path(conn, :edit, post))
+
+      {:ok, _, html} =
+        index_live
+        |> form("#post-form", post: @update_attrs)
+        |> render_submit()
+        |> follow_redirect(conn, Routes.post_index_path(conn, :index))
+
+      assert html =~ "Post updated successfully"
+      assert html =~ "some updated body"
+    end
+
+    test "update with invalid form data shows validation error", %{
+      conn: conn,
+      user: user
+    } do
+      post = post_fixture(user)
+      conn = Plug.Test.init_test_session(conn, user_id: user.id)
+
+      {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
+
+      assert index_live |> element("#post-#{post.id} a", "Edit") |> render_click() =~
+               "Edit Post"
+
+      assert_patch(index_live, Routes.post_index_path(conn, :edit, post))
+
+      assert index_live
+             |> form("#post-form", post: @invalid_attrs)
+             |> render_change() =~ "can&#39;t be blank"
+    end
+
+    test "deletes owned post in listing", %{conn: conn, user: user} do
+      post = post_fixture(user)
+      conn = Plug.Test.init_test_session(conn, user_id: user.id)
+
+      {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
+
+      assert index_live |> element("#post-#{post.id} a", "Delete") |> render_click()
+      refute has_element?(index_live, "#post-#{post.id}")
+    end
   end
 
   describe "Index - when unauthenticated" do
@@ -51,16 +101,6 @@ defmodule SocialNetworkWeb.PostLiveTest do
 
       assert html =~ "Listing Posts"
       assert html =~ post.body
-    end
-
-    test "does not display edit button", %{conn: conn} do
-      {:ok, _show_live, html} = live(conn, Routes.post_index_path(conn, :index))
-      refute html =~ "Edit"
-    end
-
-    test "does not display delete button", %{conn: conn} do
-      {:ok, _show_live, html} = live(conn, Routes.post_index_path(conn, :index))
-      refute html =~ "Delete"
     end
 
     test "does not display new post button", %{conn: conn} do
@@ -106,78 +146,20 @@ defmodule SocialNetworkWeb.PostLiveTest do
              |> form("#post-form", post: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
     end
-
-    test "updates post in listing", %{conn: conn, user: user} do
-      post = post_fixture(user)
-      conn = Plug.Test.init_test_session(conn, user_id: user.id)
-
-      {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
-
-      assert index_live |> element("#post-#{post.id} a", "Edit") |> render_click() =~
-               "Edit Post"
-
-      assert_patch(index_live, Routes.post_index_path(conn, :edit, post))
-
-      {:ok, _, html} =
-        index_live
-        |> form("#post-form", post: @update_attrs)
-        |> render_submit()
-        |> follow_redirect(conn, Routes.post_index_path(conn, :index))
-
-      assert html =~ "Post updated successfully"
-      assert html =~ "some updated body"
-    end
-
-    test "update with invalid form data shows validation error", %{
-      conn: conn,
-      user: user
-    } do
-      post = post_fixture(user)
-      conn = Plug.Test.init_test_session(conn, user_id: user.id)
-
-      {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
-
-      assert index_live |> element("#post-#{post.id} a", "Edit") |> render_click() =~
-               "Edit Post"
-
-      assert_patch(index_live, Routes.post_index_path(conn, :edit, post))
-
-      assert index_live
-             |> form("#post-form", post: @invalid_attrs)
-             |> render_change() =~ "can&#39;t be blank"
-    end
-
-    test "deletes post in listing", %{conn: conn, user: user} do
-      post = post_fixture(user)
-      conn = Plug.Test.init_test_session(conn, user_id: user.id)
-
-      {:ok, index_live, _html} = live(conn, Routes.post_index_path(conn, :index))
-
-      assert index_live |> element("#post-#{post.id} a", "Delete") |> render_click()
-      refute has_element?(index_live, "#post-#{post.id}")
-    end
   end
 
-  describe "Show - when unauthenticated" do
-    setup [:create_post]
+  describe "Show - ownership" do
+    setup [:create_user, :create_post]
 
-    test "displays post", %{conn: conn, post: post} do
-      {:ok, _show_live, html} = live(conn, Routes.post_show_path(conn, :show, post))
+    test "un-owned post does not display edit button", %{conn: conn, user: user, post: post} do
+      conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
-      assert html =~ "Show Post"
-      assert html =~ post.body
-    end
-
-    test "does not display edit button", %{conn: conn, post: post} do
       {:ok, _show_live, html} = live(conn, Routes.post_show_path(conn, :show, post))
       refute html =~ "Edit"
     end
-  end
 
-  describe "Show - when authenticated" do
-    setup [:create_post, :create_user]
-
-    test "updates post within modal", %{conn: conn, post: post, user: user} do
+    test "updates owned post within modal", %{conn: conn, user: user} do
+      post = post_fixture(user)
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, show_live, _html} = live(conn, Routes.post_show_path(conn, :show, post))
@@ -199,9 +181,9 @@ defmodule SocialNetworkWeb.PostLiveTest do
 
     test "update with invalid form data shows validation error", %{
       conn: conn,
-      post: post,
       user: user
     } do
+      post = post_fixture(user)
       conn = Plug.Test.init_test_session(conn, user_id: user.id)
 
       {:ok, show_live, _html} = live(conn, Routes.post_show_path(conn, :show, post))
@@ -215,5 +197,26 @@ defmodule SocialNetworkWeb.PostLiveTest do
              |> form("#post-form", post: @invalid_attrs)
              |> render_change() =~ "can&#39;t be blank"
     end
+
+  end
+
+  describe "Show - when unauthenticated" do
+    setup [:create_post]
+
+    test "displays post", %{conn: conn, post: post} do
+      {:ok, _show_live, html} = live(conn, Routes.post_show_path(conn, :show, post))
+
+      assert html =~ "Show Post"
+      assert html =~ post.body
+    end
+
+    test "post does not display edit button", %{conn: conn, post: post} do
+      {:ok, _show_live, html} = live(conn, Routes.post_show_path(conn, :show, post))
+      refute html =~ "Edit"
+    end
+  end
+
+  describe "Show - when authenticated" do
+    setup [:create_post, :create_user]
   end
 end
